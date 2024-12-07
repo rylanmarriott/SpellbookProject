@@ -22,9 +22,12 @@ class DetailActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 try {
                     val spellDetails = ApiClient.retrofit.getSpellDetails(spellIndex)
+                    // Print the full response to see the data structure
+                    println("Spell details: $spellDetails")
+
                     spellName.text = spellDetails.name
                     spellLevel.text = "Level: ${spellDetails.level}"
-                    spellDescription.text = spellDetails.description.joinToString("\n")
+                    spellDescription.text = spellDetails.desc.joinToString("\n")
                 } catch (e: Exception) {
                     spellDescription.text = "Failed to load details."
                 }

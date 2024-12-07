@@ -23,9 +23,16 @@ class MainActivity : AppCompatActivity() {
         // Observe spells LiveData
         viewModel.spells.observe(this) { spells ->
             adapter = SpellAdapter(spells) { spell ->
-                val intent = Intent(this, DetailActivity::class.java)
-                intent.putExtra("spell_index", spell.index)
-                startActivity(intent)
+                val spellIndex = spell.index
+                if (spellIndex != null) {
+                    // Log the spell index before passing it to DetailActivity
+                    println("Spell Index passed to DetailActivity: $spellIndex")
+                    val intent = Intent(this, DetailActivity::class.java)
+                    intent.putExtra("spell_index", spellIndex)
+                    startActivity(intent)
+                } else {
+                    println("Error: Spell index is null")
+                }
             }
             recyclerView.adapter = adapter
         }
