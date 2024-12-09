@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.dndspells.R
 import com.example.dndspells.model.Spell
 
 class SpellAdapter(
@@ -14,7 +15,7 @@ class SpellAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SpellViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(android.R.layout.simple_list_item_1, parent, false)
+            .inflate(R.layout.item_spell, parent, false)
         return SpellViewHolder(view)
     }
 
@@ -26,10 +27,10 @@ class SpellAdapter(
     override fun getItemCount(): Int = spells.size
 
     class SpellViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val textView: TextView = itemView.findViewById(android.R.id.text1)
+        private val spellName: TextView = itemView.findViewById(R.id.spellName)
 
         fun bind(spell: Spell, onClick: (Spell) -> Unit) {
-            textView.text = spell.name
+            spellName.text = spell.name
             itemView.setOnClickListener { onClick(spell) }
         }
     }
