@@ -2,7 +2,6 @@ package com.example.dndspells
 
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -16,11 +15,6 @@ class DetailActivity : AppCompatActivity() {
 
         // Enable the Up button
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        val backButton: Button = findViewById(R.id.backButton)
-        backButton.setOnClickListener {
-            onBackPressed()
-        }
 
         val spellName: TextView = findViewById(R.id.spellName)
         val spellLevel: TextView = findViewById(R.id.spellLevel)
