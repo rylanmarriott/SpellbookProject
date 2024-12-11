@@ -26,12 +26,24 @@ class SectionedSpellAdapter(
             }
             ViewType.ITEM -> {
                 val view = LayoutInflater.from(parent.context)
-                    .inflate(android.R.layout.simple_list_item_2, parent, false)
+                    .inflate(R.layout.spell_item, parent, false) // Use spell_item.xml
                 SpellViewHolder(view)
             }
             else -> throw IllegalArgumentException("Invalid view type")
         }
     }
+
+    class SpellViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val spellName: TextView = itemView.findViewById(R.id.spellName)
+        private val spellLevel: TextView = itemView.findViewById(R.id.spellLevel)
+
+        fun bind(spell: Spell, onClick: (Spell) -> Unit) {
+            spellName.text = spell.name
+            spellLevel.text = "Level: ${spell.level}"
+            itemView.setOnClickListener { onClick(spell) }
+        }
+    }
+
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (val item = flattenedList[position]) {
@@ -53,14 +65,6 @@ class SectionedSpellAdapter(
         private val textView: TextView = itemView.findViewById(android.R.id.text1)
         fun bind(level: Int) {
             textView.text = "Level $level"
-        }
-    }
-
-    class SpellViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val textView: TextView = itemView.findViewById(android.R.id.text1)
-        fun bind(spell: Spell, onClick: (Spell) -> Unit) {
-            textView.text = spell.name
-            itemView.setOnClickListener { onClick(spell) }
         }
     }
 

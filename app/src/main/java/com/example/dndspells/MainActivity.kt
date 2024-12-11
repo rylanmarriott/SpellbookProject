@@ -37,6 +37,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun groupSpellsByLevel(spells: List<Spell>): Map<Int, List<Spell>> {
-        return spells.groupBy { it.level }
+        return spells
+            .sortedWith(compareBy<Spell> { it.level }.thenBy { it.name })
+            .groupBy { it.level }
     }
 }
