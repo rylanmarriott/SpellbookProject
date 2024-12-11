@@ -26,7 +26,7 @@ class SectionedSpellAdapter(
             }
             ViewType.ITEM -> {
                 val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.spell_item, parent, false) // Use spell_item.xml
+                    .inflate(R.layout.item_spell, parent, false) // Use spell_item.xml
                 SpellViewHolder(view)
             }
             else -> throw IllegalArgumentException("Invalid view type")
