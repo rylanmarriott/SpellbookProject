@@ -6,12 +6,13 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.dndspells.adapter.SpellAdapter
+import com.example.dndspells.model.Spell
+import com.example.dndspells.adapter.SectionedSpellAdapter
 import com.example.dndspells.viewmodel.SpellViewModel
 
 class MainActivity : AppCompatActivity() {
     private val viewModel: SpellViewModel by viewModels()
-    private lateinit var adapter: SpellAdapter
+    private lateinit var adapter: SectionedSpellAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,22 +23,20 @@ class MainActivity : AppCompatActivity() {
 
         // Observe spells LiveData
         viewModel.spells.observe(this) { spells ->
-            adapter = SpellAdapter(spells) { spell ->
-                val spellIndex = spell.index
-                if (spellIndex != null) {
-                    // Log the spell index before passing it to DetailActivity
-                    println("Spell Index passed to DetailActivity: $spellIndex")
-                    val intent = Intent(this, DetailActivity::class.java)
-                    intent.putExtra("spell_index", spellIndex)
-                    startActivity(intent)
-                } else {
-                    println("Error: Spell index is null")
-                }
+            val groupedSpells = groupSpellsByLevel(spells)
+            adapter = SectionedSpellAdapter(groupedSpells) { spell ->
+                val intent = Intent(this, DetailActivity::class.java)
+                intent.putExtra("spell_index", spell.index)
+                startActivity(intent)
             }
             recyclerView.adapter = adapter
         }
 
         // Fetch spells from the API
         viewModel.fetchSpells()
+    }
+
+    private fun groupSpellsByLevel(spells: List<Spell>): Map<Int, List<Spell>> {
+        return spells.groupBy { it.level }
     }
 }
